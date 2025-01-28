@@ -1,8 +1,9 @@
-# from django.shortcuts import render
 import json
 
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+
+from .alert_checker import check_alerts
 
 
 @csrf_exempt
@@ -10,14 +11,13 @@ def event_handler(request):
     if request.method == "POST":
         try:
             data = json.loads(request.body)
+            user_id = data.get("user_id")
             action_type = data.get("type")
             amount = float(data.get("amount"))
             timestamp = data.get("time")
-            user_id = data.get("user_id")
 
-            alerts = []
-            if action_type == "withdraw" and amount > 100:
-                alerts.append(1100)
+            # Check action for potential alerts
+            alerts = check_alerts(user_id, action_type, amount, timestamp)
 
             response_data = {
                 "alert": bool(alerts),

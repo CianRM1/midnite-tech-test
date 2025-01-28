@@ -5,6 +5,7 @@ name = "junior-technical-test-template"
 [tool.poetry.dependencies]
 python = "^3.12"
 flask = "^3.0.3"
+django = "^5.1.5"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.3.2"
